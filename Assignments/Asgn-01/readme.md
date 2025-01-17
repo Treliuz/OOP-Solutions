@@ -4,6 +4,20 @@ In this assignment, you will create a dictionary application that will allow the
 
 
 
+## Submission Policy
+
+The assignment should contain ***only work done by you this term*** or provided by your professor.  Work done in another term (by you or somebody else), or work done by somebody else and not **clearly identified/cited** is considered plagiarism, in violation of the Academic Integrity Policy.
+
+Every file that you submit must contain (as a comment) at the top **your name**, **your Seneca email**, **Seneca Student ID** and the **date** when you completed the work.
+
+- If the file contains only your work, or work provided to you by your professor, add the following message as a comment at the top of the file:
+
+    > I declare that this submission is the result of my own work and I only copied the code that my professor provided to complete my assignments. This submitted piece of work has not been shared with any other student or 3rd party content provider.
+
+- If the file contains work that is not yours (you found it online or somebody provided it to you), **write exactly which parts of the assignment are given to you as help, who gave it to you, or which source you received it from.**  By doing this you will only lose the mark for the parts you got help for, and the person helping you will be clear of any wrong doing.
+
+
+
 ## Compiling and Testing Your Program
 
 All your code should be compiled using this command on `matrix`:
