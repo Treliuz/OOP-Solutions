@@ -73,33 +73,33 @@ Apple - The fleshy pome or fruit of a rosaceous tree (Pyrus malus) cultivated in
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
- 1:                      Default Constructor ->       12200 nanoseconds
- 2:                       Custom Constructor ->   158232495 nanoseconds
- 3:                         Copy Constructor ->    35367144 nanoseconds
- 4:                 Copy Assignment Operator ->    31905740 nanoseconds
- 5:                         Move Constructor ->        1700 nanoseconds
- 6:                 Move Assignment Operator ->       32400 nanoseconds
- 7:                               Destructor ->     9821812 nanoseconds
- 8:      Search for a word (first occurence) ->      134800 nanoseconds
- 9:       Search for a word (all occurences) ->     3394004 nanoseconds
+ 1:                      Default Constructor ->       12400 nanoseconds
+ 2:                       Custom Constructor ->   211404588 nanoseconds
+ 3:                         Copy Constructor ->    39571167 nanoseconds
+ 4:                 Copy Assignment Operator ->    33775331 nanoseconds
+ 5:                         Move Constructor ->        1500 nanoseconds
+ 6:                 Move Assignment Operator ->       34699 nanoseconds
+ 7:                               Destructor ->    10242388 nanoseconds
+ 8:      Search for a word (first occurence) ->      149099 nanoseconds
+ 9:       Search for a word (all occurences) ->     3691560 nanoseconds
 
 10:                      Default Constructor ->       12 microseconds
-11:                       Custom Constructor ->   158232 microseconds
-12:                         Copy Constructor ->    35367 microseconds
-13:                 Copy Assignment Operator ->    31905 microseconds
+11:                       Custom Constructor ->   211404 microseconds
+12:                         Copy Constructor ->    39571 microseconds
+13:                 Copy Assignment Operator ->    33775 microseconds
 14:                         Move Constructor ->        1 microseconds
-15:                 Move Assignment Operator ->       32 microseconds
-16:                               Destructor ->     9821 microseconds
-17:      Search for a word (first occurence) ->      134 microseconds
-18:       Search for a word (all occurences) ->     3394 microseconds
+15:                 Move Assignment Operator ->       34 microseconds
+16:                               Destructor ->    10242 microseconds
+17:      Search for a word (first occurence) ->      149 microseconds
+18:       Search for a word (all occurences) ->     3691 microseconds
 
 19:                      Default Constructor ->     0 milliseconds
-20:                       Custom Constructor ->   158 milliseconds
-21:                         Copy Constructor ->    35 milliseconds
-22:                 Copy Assignment Operator ->    31 milliseconds
+20:                       Custom Constructor ->   211 milliseconds
+21:                         Copy Constructor ->    39 milliseconds
+22:                 Copy Assignment Operator ->    33 milliseconds
 23:                         Move Constructor ->     0 milliseconds
 24:                 Move Assignment Operator ->     0 milliseconds
-25:                               Destructor ->     9 milliseconds
+25:                               Destructor ->    10 milliseconds
 26:      Search for a word (first occurence) ->     0 milliseconds
 27:       Search for a word (all occurences) ->     3 milliseconds
 

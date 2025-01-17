@@ -185,5 +185,5 @@ int main(int argc, char** argv)
 	seneca::g_settings.m_time_units = "seconds";
 	std::cout << '\n' << log;
 
-	return 0;
+	return cout;
 }
