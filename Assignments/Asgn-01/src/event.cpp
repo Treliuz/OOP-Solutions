@@ -22,7 +22,7 @@ namespace seneca {
             conversionRate = 1e-9;
         }
         os << std::right << std::setw(2) << g_counter++ << ": " << std::setw(40) << event.m_eventName << " -> ";
-        os << std::setw(fieldWidth) << event.m_duration.count() * conversionRate << " " << g_settings.m_time_units;
+        os << std::setw(fieldWidth) << (event.m_duration.count() * conversionRate) << " " << g_settings.m_time_units;
 
         return os;
     }
