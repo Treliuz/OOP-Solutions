@@ -16,14 +16,14 @@ namespace seneca {
 
     std::string Dictionary::POS(PartOfSpeech pos) const {
         switch (pos) {
-            case PartOfSpeech::Noun: return "Noun";
-            case PartOfSpeech::Pronoun: return "Pronoun";
-            case PartOfSpeech::Adjective: return "Adjective";
-            case PartOfSpeech::Adverb: return "Adverb";
-            case PartOfSpeech::Verb: return "Verb";
-            case PartOfSpeech::Preposition: return "Preposition";
-            case PartOfSpeech::Conjunction: return "Conjunction";
-            case PartOfSpeech::Interjection: return "Interjection";
+            case PartOfSpeech::Noun: return "noun";
+            case PartOfSpeech::Pronoun: return "pronoun";
+            case PartOfSpeech::Adjective: return "adjective";
+            case PartOfSpeech::Adverb: return "adverb";
+            case PartOfSpeech::Verb: return "verb";
+            case PartOfSpeech::Preposition: return "preposition";
+            case PartOfSpeech::Conjunction: return "conjunction";
+            case PartOfSpeech::Interjection: return "interjection";
             default: return "";
         }
     }
