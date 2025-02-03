@@ -1,156 +1,170 @@
-
+/********************************************************************************
+* OOP345 – Assignment 01
+* Line 52-55 written with help from https://www.geeksforgeeks.org/c-plus-plus/?ref=shm
+* Name: Joseph Mwamba-Mukuna Student ID: 163997216 Date: 02/02/2025  
+********************************************************************************/
 #include <iostream>
+#include <iomanip>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <algorithm>
-#include "settings.h" // Include the settings module
+#include "settings.h"
 #include "dictionary.h"
 
 namespace seneca {
 
-    // Default constructor
-    Dictionary::Dictionary() {}
-
-    // Constructor that loads words from a file
-    Dictionary::Dictionary(const char* filename) {
-        std::ifstream file(filename);
-        if (!file.is_open()) {
-            m_empty = true;
-            return;
-        }
-
-        std::vector<Word> tempWords;
-        std::string line;
-        while (std::getline(file, line)) {
-            size_t delimiter = line.find('|');
-            if (delimiter == std::string::npos) continue;
-
-            std::string wordStr = trim(line.substr(0, delimiter));
-            std::string definitionStr = trim(line.substr(delimiter + 1));
-
-            // Extract part of speech from the definition (if present)
-            size_t posStart = definitionStr.find('(');
-            size_t posEnd = definitionStr.find(')');
-            PartOfSpeech pos = PartOfSpeech::Unknown;
-            if (posStart != std::string::npos && posEnd != std::string::npos && posStart < posEnd) {
-                std::string posStr = trim(definitionStr.substr(posStart + 1, posEnd - posStart - 1));
-                pos = stringToPartOfSpeech(posStr);
-                definitionStr = trim(definitionStr.substr(0, posStart) + definitionStr.substr(posEnd + 1));
-            }
-
-            tempWords.push_back({wordStr, definitionStr, pos});
-        }
-
-        // Allocate memory for the array
-        m_size = tempWords.size();
-        if (m_size > 0) {
-            words = new Word[m_size];
-            std::copy(tempWords.begin(), tempWords.end(), words);
-            m_empty = false;
+    std::string Dictionary::POS(PartOfSpeech pos) const {
+        switch (pos) {
+            case PartOfSpeech::Noun: return "Noun";
+            case PartOfSpeech::Pronoun: return "Pronoun";
+            case PartOfSpeech::Adjective: return "Adjective";
+            case PartOfSpeech::Adverb: return "Adverb";
+            case PartOfSpeech::Verb: return "Verb";
+            case PartOfSpeech::Preposition: return "Preposition";
+            case PartOfSpeech::Conjunction: return "Conjunction";
+            case PartOfSpeech::Interjection: return "Interjection";
+            default: return "";
         }
     }
 
-    // Destructor
+    Dictionary::Dictionary() : words(nullptr), size(0) {}
+
+    Dictionary::Dictionary(const char* filename) : words(nullptr), size(0) {
+        std::ifstream file(filename);
+        if (!file.is_open()) {
+            return;
+        }
+
+        size_t count = 0;
+        std::string line;
+        while (std::getline(file, line)) {
+            count++;
+        }
+
+        words = new Word[count];
+        size = count;
+
+        file.clear();
+        file.seekg(0);
+
+        size_t index = 0;
+        while (std::getline(file, line)) {
+            if (index < size) {
+                std::istringstream iss(line);
+                std::string word, pos, definition;
+                if (std::getline(iss, word, ',') && std::getline(iss, pos, ',') && std::getline(iss, definition)) {
+                    words[index].m_word = word;
+                    words[index].m_definition = definition;
+
+                    if (pos == "n." || pos == "n. pl.") {
+                        words[index].m_pos = PartOfSpeech::Noun;
+                    }
+                    else if (pos == "adv.") {
+                        words[index].m_pos = PartOfSpeech::Adverb;
+                    }
+                    else if (pos == "a.") {
+                        words[index].m_pos = PartOfSpeech::Adjective;
+                    }
+                    else if (pos == "v." || pos == "v. i." || pos == "v. t." || pos == "v. t. & i.") {
+                        words[index].m_pos = PartOfSpeech::Verb;
+                    }
+                    else if (pos == "prep.") {
+                        words[index].m_pos = PartOfSpeech::Preposition;
+                    }
+                    else if (pos == "pron.") {
+                        words[index].m_pos = PartOfSpeech::Pronoun;
+                    }
+                    else if (pos == "conj.") {
+                        words[index].m_pos = PartOfSpeech::Conjunction;
+                    }
+                    else if (pos == "interj.") {
+                        words[index].m_pos = PartOfSpeech::Interjection;
+                    }
+                    else {
+                        words[index].m_pos = PartOfSpeech::Unknown;
+                    }
+                    index++;
+                }
+            }
+        }
+    }
+
     Dictionary::~Dictionary() {
         delete[] words;
     }
 
-    // Copy constructor
-    Dictionary::Dictionary(const Dictionary& other) {
-        m_size = other.m_size;
-        m_empty = other.m_empty;
-        if (m_size > 0) {
-            m_words = new Word[m_size];
-            std::copy(other.m_words, other.m_words + m_size, m_words);
-        } else {
-            m_words = nullptr;
+    Dictionary::Dictionary(const Dictionary& other) : words(nullptr), size(0) {
+        if (other.words) {
+            size = other.size;
+            words = new Word[size];
+            for (size_t i = 0; i < size; i++) {
+                words[i] = other.words[i];
+            }
         }
     }
 
-    // Copy assignment operator
     Dictionary& Dictionary::operator=(const Dictionary& other) {
         if (this != &other) {
-            delete[] m_words;
-            m_size = other.m_size;
-            m_empty = other.m_empty;
-            if (m_size > 0) {
-                m_words = new Word[m_size];
-                std::copy(other.m_words, other.m_words + m_size, m_words);
+            delete[] words;
+
+            if (other.words) {
+                size = other.size;
+                words = new Word[size];
+                for (size_t i = 0; i < size; ++i) {
+                    words[i] = other.words[i];
+                }
             } else {
-                m_words = nullptr;
+                words = nullptr;
+                size = 0;
             }
         }
         return *this;
     }
 
-    // Move constructor
-    Dictionary::Dictionary(Dictionary&& other) noexcept {
-        m_words = other.m_words;
-        m_size = other.m_size;
-        m_empty = other.m_empty;
-        other.m_words = nullptr;
-        other.m_size = 0;
-        other.m_empty = true;
+    Dictionary::Dictionary(Dictionary&& other) noexcept : words(other.words), size(other.size){
+        other.words = nullptr;
+        other.size = 0;
     }
 
-    // Move assignment operator
     Dictionary& Dictionary::operator=(Dictionary&& other) noexcept {
         if (this != &other) {
-            delete[] m_words;
-            m_words = other.m_words;
-            m_size = other.m_size;
-            m_empty = other.m_empty;
-            other.m_words = nullptr;
-            other.m_size = 0;
-            other.m_empty = true;
+            delete[] words;
+            words = other.words;
+            size = other.size;
+            other.words = nullptr;
+            other.size = 0;
         }
         return *this;
     }
 
-    // Search for a word in the dictionary
     void Dictionary::searchWord(const char* word) const {
-        if (m_empty) {
-            std::cout << "Dictionary is empty." << std::endl;
-            return;
-        }
-
-        std::string searchWordStr(word);
         bool found = false;
-        for (size_t i = 0; i < m_size; ++i) {
-            if (m_words[i].m_word == searchWordStr) {
+        for (size_t i = 0; i < size; i++) {
+            if (words[i].m_word == word) {
                 if (!found) {
-                    std::cout << m_words[i].m_word << " - ";
+                    std::cout << words[i].m_word << " - ";
+                    if (g_settings.m_verbose && words[i].m_pos != PartOfSpeech::Unknown) {
+                        std::cout << "(" << POS(words[i].m_pos) << ") ";
+                    }
+                    std::cout << words[i].m_definition << std::endl;
                     found = true;
                 } else {
-                    std::cout << std::string(m_words[i].m_word.length() + 3, ' ');
-                }
-
-                if (g_settings.m_verbose && m_words[i].m_pos != PartOfSpeech::Unknown) {
-                    std::cout << "(";
-                    switch (m_words[i].m_pos) {
-                        case PartOfSpeech::Noun: std::cout << "Noun"; break;
-                        case PartOfSpeech::Pronoun: std::cout << "Pronoun"; break;
-                        case PartOfSpeech::Adjective: std::cout << "Adjective"; break;
-                        case PartOfSpeech::Adverb: std::cout << "Adverb"; break;
-                        case PartOfSpeech::Verb: std::cout << "Verb"; break;
-                        case PartOfSpeech::Preposition: std::cout << "Preposition"; break;
-                        case PartOfSpeech::Conjunction: std::cout << "Conjunction"; break;
-                        case PartOfSpeech::Interjection: std::cout << "Interjection"; break;
-                        default: break;
+                    std::cout << std::setw(words[i].m_word.length() + 3) << " - ";
+                    if (g_settings.m_verbose && words[i].m_pos != PartOfSpeech::Unknown) {
+                        std::cout << "(" << POS(words[i].m_pos) << ") ";
                     }
-                    std::cout << ") ";
+                    std::cout << words[i].m_definition << std::endl;
                 }
 
-                std::cout << m_words[i].m_definition << std::endl;
-
-                if (!g_settings.m_show_all) break;
+                if (!g_settings.m_show_all) {
+                    break;
+                }
             }
         }
-
+        
         if (!found) {
-            std::cout << "Word '" << searchWordStr << "' was not found in the dictionary." << std::endl;
+            std::cout << "Word '" << word << "' was not found in the dictionary." << std::endl;
         }
     }
-
 }
