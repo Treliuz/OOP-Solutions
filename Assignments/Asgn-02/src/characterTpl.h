@@ -2,7 +2,6 @@
 #define SENECA_CHARACTERTPL_H
 #include "character.h"
 
-
 namespace seneca {
     template <typename T>
     class CharacterTpl : public Character {

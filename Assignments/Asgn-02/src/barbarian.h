@@ -1,6 +1,7 @@
 #ifndef SENECA_BARBARIAN_H
 #define SENECA_BARBARIAN_H
 #include "characterTpl.h"
+#include <iostream>
 namespace seneca {
     template<typename T, typename Abitity_t, typename Weapon_t>
     class Barbarian : public CharacterTpl<T> {
@@ -27,9 +28,28 @@ namespace seneca {
             return new Barbarian<T, Ability_t, Weapon_t>(*this);
         }
 
-        void attack(Character* enemy) override;
+        void attack(Character* enemy) override { 
+            std::cout << this->getName() << " is attacking " << enemy->getName() << "." << std::endl;
+            
+            m_ability.useAbility(*this);
+            int dmg = getAttackAmnt();
+            m_ability.transformDamageDealt(dmg);
 
-        void takeDamage(int dmg) override;
+            std::cout << "Barbarian deals " << dmg << " melee damage!" << std::endl;
+
+            enemy.takeDamage(dmg);
+        }   
+
+        void takeDamage(int dmg) override {
+            std::cout << this->getName() << " is attacked for " << dmg << " damage." << std::endl;
+            std::cout << "\t Barbarian has a defense of " << this->m_baseDefense << ". Reducing damage received." << std::endl;
+
+            dmg -= m_baseDefense;
+            if (dmg < 0)
+                dmg = 0;
+            m_ability.transformDamageReceived(dmg);
+            CharacterTpl<T>::takeDamage(dmg);
+        }
     };
 }
 #endif
