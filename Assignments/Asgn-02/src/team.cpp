@@ -1,5 +1,4 @@
 #include "team.h"
-
 namespace seneca {
     Team::Team() : m_teamName(""), m_members(nullptr), m_size(0) {}
 
@@ -58,5 +57,70 @@ namespace seneca {
             delete m_members[i]; 
         }
         delete[] m_members; 
+    }
+
+    void Team::addMember(const Character* c) {
+        if (c) {
+            for (size_t i = 0; i < m_size; i++) {
+                if (m_members[i]->getName() == c->getName()) {
+                    std::cout << c->getName() << " is already a member" <<  std::endl;
+                    return;
+                }
+            }
+        }
+        
+        Character** temp = new Character*[m_size + 1];
+
+        for (size_t i = 0; i < m_size; i++) {
+            temp[i] = m_members[i];
+        }
+
+        temp[m_size] = c->clone();
+        delete[] m_members;
+        m_members = temp;
+        m_size++;
+    }
+
+    void Team::removeMember(const std::string& c) {
+        for (size_t i = 0; i < m_size; i++) {
+            if (m_members[i]->getName() == c) {
+                delete m_members[i];
+
+                for (size_t j = i; j < m_size - 1; j++) {
+                    m_members[j] = m_members[j + 1];
+                }
+                m_size--;
+
+                Character** temp = new Character*[m_size];
+                for (size_t i = 0; i < m_size; i++) {
+                    temp[i] = m_members[i];
+                }
+
+                delete[] m_members;
+                m_members = temp;
+                return;
+            }
+        }
+    }
+
+    Character* Team::operator[](size_t idx) const {
+        if (idx >= m_size) {
+            std::cerr << idx << " is out of bounds!" << std::endl;
+            return nullptr;
+        }
+        return m_members[idx];
+    }
+
+    void Team::showMembers() const {
+        if (m_size == 0) {
+            std::cout << "No team." << std::endl;
+            return;
+        }
+
+        std::cout << "[Team] " << m_teamName << std::endl;
+
+        for (size_t i = 0; i < m_size; i++) {
+            std::cout << "    " << (i + 1) << ": "<< *m_members[i] << std::endl;
+        }
     }
 }
