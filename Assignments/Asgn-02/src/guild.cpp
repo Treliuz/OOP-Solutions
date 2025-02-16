@@ -13,9 +13,11 @@ namespace seneca {
     Guild::Guild(const char* name) : m_guildName(name), m_members(nullptr), m_size(0) {}
 
     Guild::Guild(const Guild& other) : m_guildName(other.m_guildName), m_size(other.m_size) {
-        m_members = new Character*[m_size];
-        for (size_t i = 0; i < m_size; i++) {
-            m_members[i] = other.m_members[i]->clone();
+        if (other.m_members != nullptr) {
+            m_members = new Character*[m_size];
+            for (size_t i = 0; i < m_size; i++) {
+                m_members[i] = other.m_members[i]->clone();
+            }
         }
     }
 
@@ -26,7 +28,7 @@ namespace seneca {
 
     Guild& Guild::operator=(const Guild& other) {
         if (this != &other) {
-            
+
             for (size_t i = 0; i < m_size; ++i) {
                 delete m_members[i];
             }
