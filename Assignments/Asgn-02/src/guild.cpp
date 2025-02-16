@@ -18,6 +18,8 @@ namespace seneca {
             for (size_t i = 0; i < m_size; i++) {
                 m_members[i] = other.m_members[i]->clone();
             }
+        } else {
+            m_members = nullptr;
         }
     }
 
