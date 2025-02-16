@@ -1,14 +1,15 @@
 #ifndef SENECA_ARCHER_H
 #define SENECA_ARCHER_H
 #include "characterTpl.h"
+#include "health.h"
 namespace seneca {
     template<typename Weapon_t>
     class Archer : public CharacterTpl<seneca::SuperHealth> {
-        int m_baseDefense{};
         int m_baseAttack{};
+        int m_baseDefense{};
         Weapon_t m_weapon;
     public:
-        Archer(const char* name, int healthMax, int baseAttack, int baseDefense, Weapon_t weapon) : CharacterTpl<T>(name, healthMax), m_baseAttack(baseAttack), m_baseDefense(baseDefense), m_weapon(weapon) {}
+        Archer(const char* name, int healthMax, int baseAttack, int baseDefense, Weapon_t weapon) : CharacterTpl(name, healthMax), m_baseAttack(baseAttack), m_baseDefense(baseDefense), m_weapon(weapon) {}
         
         int getAttackAmnt() const override {
             return (1.3 * m_baseAttack);
@@ -38,8 +39,7 @@ namespace seneca {
             dmg -= m_baseDefense;
             if (dmg < 0)
                 dmg = 0;
-            m_ability.transformDamageReceived(dmg);
-            CharacterTpl<T>::takeDamage(dmg);
+            CharacterTpl::takeDamage(dmg);
         }
     };
 }

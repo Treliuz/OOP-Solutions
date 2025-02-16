@@ -1,30 +1,29 @@
-#include "team.h"
+#include "guild.h"
 namespace seneca {
-    Team::Team() : m_teamName(""), m_members(nullptr), m_size(0) {}
+    Guild::Guild() : m_guildName(""), m_members(nullptr), m_size(0) {}
 
-    Team::Team(const char* name) : m_teamName(name), m_members(nullptr), m_size(0) {}
+    Guild::Guild(const char* name) : m_guildName(name), m_members(nullptr), m_size(0) {}
 
-    Team::Team(const Team& other) : m_teamName(other.m_teamName), m_size(other.m_size) {
+    Guild::Guild(const Guild& other) : m_guildName(other.m_guildName), m_size(other.m_size) {
         m_members = new Character*[m_size];
         for (size_t i = 0; i < m_size; i++) {
             m_members[i] = other.m_members[i]->clone();
         }
     }
 
-    Team::Team(Team&& other) noexcept : m_teamName(std::move(other.m_teamName)), m_members(other.m_members), m_size(other.m_size) {
+    Guild::Guild(Guild&& other) noexcept : m_guildName(std::move(other.m_guildName)), m_members(other.m_members), m_size(other.m_size) {
         other.m_members = nullptr;
         other.m_size = 0;
     }
 
-    Team& Team::operator=(const Team& other) {
+    Guild& Guild::operator=(const Guild& other) {
         if (this != &other) {
-
             delete[] m_members;
 
-            m_teamName = other.m_teamName;
+            m_guildName = other.m_guildName;
             m_size = other.m_size;
 
-            if (other.m_members != nullptr) {
+            if (other.m_members != nullptr){
                 m_members = new Character*[m_size];
                 for (size_t i = 0; i < m_size; ++i) {
                     m_members[i] = other.m_members[i]->clone();
@@ -36,14 +35,14 @@ namespace seneca {
         return *this;
     }
 
-    Team& Team::operator=(Team&& other) noexcept {
+    Guild& Guild::operator=(Guild&& other) noexcept {
         if (this != &other) {
             for (size_t i = 0; i < m_size; ++i) {
                 delete m_members[i];
             }
             delete[] m_members;
     
-            m_teamName = std::move(other.m_teamName);
+            m_guildName = std::move(other.m_guildName);
             m_members = other.m_members;
             m_size = other.m_size;
     
@@ -53,14 +52,11 @@ namespace seneca {
         return *this;
     }
     
-    Team::~Team() {
-        for (size_t i = 0; i < m_size; ++i) {
-            delete m_members[i]; 
-        }
+    Guild::~Guild() {
         delete[] m_members; 
     }
 
-    void Team::addMember(const Character* c) {
+    void Guild::addMember(Character* c) {
         if (c) {
             for (size_t i = 0; i < m_size; i++) {
                 if (m_members[i]->getName() == c->getName()) {
@@ -68,42 +64,55 @@ namespace seneca {
                 }
             }
         }
-        
+
+        c->setHealthMax(c->getHealthMax() + 300);
+        c->setHealth(c->getHealthMax());
+
         Character** temp = new Character*[m_size + 1];
 
         for (size_t i = 0; i < m_size; i++) {
             temp[i] = m_members[i];
         }
 
-        temp[m_size] = c->clone();
+        temp[m_size] = c;
+
         delete[] m_members;
         m_members = temp;
         m_size++;
     }
 
-    void Team::removeMember(const std::string& c) {
+    void Guild::removeMember(const std::string& c) {
         for (size_t i = 0; i < m_size; i++) {
             if (m_members[i]->getName() == c) {
-                delete m_members[i];
+
+                m_members[i]->setHealthMax(m_members[i]->getHealthMax() - 300);
+                if (m_members[i]->getHealth() > m_members[i]->getHealthMax()) {
+                    m_members[i]->setHealth(m_members[i]->getHealthMax());
+                }
 
                 for (size_t j = i; j < m_size - 1; j++) {
                     m_members[j] = m_members[j + 1];
                 }
                 m_size--;
 
-                Character** temp = new Character*[m_size];
-                for (size_t i = 0; i < m_size; i++) {
-                    temp[i] = m_members[i];
-                }
+                if (m_size > 0) {
+                    Character** temp = new Character*[m_size];
+                    for (size_t i = 0; i < m_size; i++) {
+                        temp[i] = m_members[i];
+                    }
 
-                delete[] m_members;
-                m_members = temp;
+                    delete[] m_members;
+                    m_members = temp;
+                } else {
+                    delete[] m_members;
+                    m_members = nullptr;
+                }
                 return;
             }
         }
     }
 
-    Character* Team::operator[](size_t idx) const {
+    Character* Guild::operator[](size_t idx) const {
         if (idx >= m_size) {
             std::cerr << idx << " is out of bounds!" << std::endl;
             return nullptr;
@@ -111,13 +120,13 @@ namespace seneca {
         return m_members[idx];
     }
 
-    void Team::showMembers() const {
-        if (m_size == 0) {
-            std::cout << "No team." << std::endl;
+    void Guild::showMembers() const {
+        if (m_guildName == "") {
+            std::cout << "No guild." << std::endl;
             return;
         }
 
-        std::cout << "[Team] " << m_teamName << std::endl;
+        std::cout << "[Guild] " << m_guildName << std::endl;
 
         for (size_t i = 0; i < m_size; i++) {
             std::cout << "    " << (i + 1) << ": "<< *m_members[i] << std::endl;

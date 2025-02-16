@@ -1,18 +1,21 @@
 #ifndef SENECA_ROGUE_H
 #define SENECA_ROGUE_H
+#include "characterTpl.h"
+#include "weapons.h"
+#include "abilities.h"
 namespace seneca {
     template<typename T, typename FirstAbility_t, typename SecondAbility_t>
     class Rogue : public CharacterTpl<T> {
-        int m_baseDefense{};
         int m_baseAttack{};
+        int m_baseDefense{};
         FirstAbility_t m_firstAbility;
         SecondAbility_t m_secondAbility;
-        seneca::Dagger m_weapon;
+        Dagger m_weapon;
     public:
-        Rogue(const char* name, int healthMax, int baseAttack, int baseDefense) : CharacterTpl<T>(name, healthMax), m_baseAttack(baseAttack), m_baseDefense(baseDefense) {}
+        Rogue(const char* name, int healthMax, int baseAttack, int baseDefense) : CharacterTpl<T>(name, healthMax), m_baseAttack(baseAttack), m_baseDefense(baseDefense){}
 
         int getAttackAmnt() const override {
-            return (m_baseAttack + 2 * static_cast<double>m_weapon.m_damage);
+            return (m_baseAttack + 2 * static_cast<double>(m_weapon.m_damage));
         }
 
         int getDefenseAmnt() const override {
@@ -26,8 +29,8 @@ namespace seneca {
         void attack(Character* enemy) override {
             std::cout << this->getName() << " is attacking " << enemy->getName() << "." << std::endl;
 
-            m_firstAbility.useAbility(*this);
-            m_secondAbility.useAbility(*this);
+            m_firstAbility.useAbility(static_cast<Character*>(this));
+            m_secondAbility.useAbility(static_cast<Character*>(this));
 
             int dmg = getAttackAmnt();
 

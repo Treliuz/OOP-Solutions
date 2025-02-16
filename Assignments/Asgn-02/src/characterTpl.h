@@ -1,19 +1,24 @@
 #ifndef SENECA_CHARACTERTPL_H
 #define SENECA_CHARACTERTPL_H
 #include "character.h"
-
 namespace seneca {
     template <typename T>
     class CharacterTpl : public Character {
         int m_healthMax{};
         T m_health;
     public:
-        CharacterTpl(const char* name, int maxHealth) : Character(name), m_healthMax(maxHealth), m_health(maxHealth){}
+        CharacterTpl(const char* name, int maxHealth) : Character(name), m_healthMax(maxHealth) {
+            m_health = maxHealth;
+        }
 
         void takeDamage(int dmg) override {
             m_health -= dmg;
+            if (m_health < 0) {
+                m_health = 0; 
+            }
+            
             if (isAlive() == true){
-                std::cout << getName() << " took " << dmg << " damage, " << m_health << " health remaining." << std::endl;
+                std::cout << "    "<< getName() << " took " << dmg << " damage, " << m_health << " health remaining." << std::endl;
             } else {
                 std::cout << getName() << " has been defeated!" << std::endl;
             }

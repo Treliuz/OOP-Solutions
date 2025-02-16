@@ -9,12 +9,12 @@ namespace seneca {
         size_t m_size;
     public:
         Team();
-        ~Team();
         Team(const char* name);
         Team(const Team& src);
-        Team(Team&& src);
-        Team& operator=(const Team& src) noexcept;
+        Team(Team&& src) noexcept;
+        Team& operator=(const Team& src);
         Team& operator=(Team&& src) noexcept;
+        ~Team();
         void addMember(const Character* c);
         void removeMember(const std::string& c);
         Character* operator[](size_t idx) const;
