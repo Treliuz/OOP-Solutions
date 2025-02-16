@@ -27,6 +27,10 @@ namespace seneca {
     Team& Team::operator=(const Team& other) {
         if (this != &other) {
 
+            for (size_t i = 0; i < m_size; ++i) {
+                delete m_members[i]; 
+            }
+
             delete[] m_members;
 
             m_teamName = other.m_teamName;
@@ -54,7 +58,7 @@ namespace seneca {
             m_teamName = std::move(other.m_teamName);
             m_members = other.m_members;
             m_size = other.m_size;
-    
+            
             other.m_members = nullptr;
             other.m_size = 0;
         }

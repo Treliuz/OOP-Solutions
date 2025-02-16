@@ -26,6 +26,11 @@ namespace seneca {
 
     Guild& Guild::operator=(const Guild& other) {
         if (this != &other) {
+            
+            for (size_t i = 0; i < m_size; ++i) {
+                delete m_members[i];
+            }
+
             delete[] m_members;
 
             m_guildName = other.m_guildName;
