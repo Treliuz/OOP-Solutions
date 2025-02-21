@@ -4,6 +4,10 @@
 # Allow C++ source and header files
 !*.cpp
 !*.h
+!*.mpp
+!*.doc
+!*.docx
+!*.pdf
 
 # Optional: Allow directories (necessary if ignoring everything with `*`)
 !*/
