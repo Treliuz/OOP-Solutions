@@ -4,7 +4,7 @@
 #include <numeric>
 
 namespace seneca {
-    TvShow::TvShow(const std::string& id, const std::string& title, unsigned short year, const std::string& summary) : m_id(id), MediaItem(title, summary, year) {}
+    TvShow::TvShow(const std::string& id, const std::string& title, unsigned short year, const std::string& summary) : MediaItem(title, summary, year), m_id(id) {}
 
     void TvShow::display(std::ostream& out) const {
         if (g_settings.m_tableView) {
@@ -20,9 +20,10 @@ namespace seneca {
                     out << this->getSummary();
                 else
                     out << this->getSummary().substr(0, g_settings.m_maxSummaryWidth - 3) << "...";
-            } else
+            } else {
                 out << this->getSummary();
                 out << std::endl;
+            }        
         } else {
             size_t pos = 0;
             out << this->getTitle() << " [" << this->getYear() << "]\n";

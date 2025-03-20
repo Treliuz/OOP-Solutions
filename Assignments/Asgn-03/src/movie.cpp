@@ -17,11 +17,11 @@ namespace seneca {
                     out << this->getSummary();
                 else
                     out << this->getSummary().substr(0, g_settings.m_maxSummaryWidth - 3) << "...";
-            } else
+            } else {
                 out << this->getSummary();
                 out << std::endl;
-        }
-        else {
+            }
+        } else {
             size_t pos = 0;
             out << this->getTitle() << " [" << this->getYear() << "]\n";
             out << std::setw(this->getTitle().size() + 7) << std::setfill('-') << "" << '\n';
@@ -40,7 +40,6 @@ namespace seneca {
         
         std::string title, summary, ssYear;
         std::stringstream ss(strMovie);
-        double price;
         unsigned short year;
 
         std::getline(ss, title, ',');

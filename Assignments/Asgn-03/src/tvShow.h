@@ -9,6 +9,7 @@
 #include <algorithm>
 
 namespace seneca {
+    class TvShow;
     struct TvEpisode {
         const TvShow* m_show{};
         unsigned short m_numberOverall{};
@@ -28,16 +29,17 @@ namespace seneca {
         void display(std::ostream& out) const override;
         TvShow* createItem(const std::string& strShow);
         const std::string getId() const;
+
         template<typename Collection_t>
-        void addEpisode(Collection_t& col, const std::string& strEpisode) {
+        static void addEpisode(Collection_t& col, const std::string& strEpisode) {
             if (strEpisode.size() == 0 || strEpisode[0] == '#')
                 throw "Not a valid episode.";
             
+            std::stringstream ss(strEpisode);
             std::string id, ssEp, ssSeason, ssEpInSeason, airDate, ssLength, title, summary;
             unsigned short ovrEpNum, season, epInSeason;
             unsigned int length, hours, minutes, seconds;
-            std::stringstream ss(strEpisode);
-
+            
             std::getline(ss, id, ',');
             std::getline(ss, ssEp, ',');
             std::getline(ss, ssSeason, ',');
@@ -60,18 +62,18 @@ namespace seneca {
             season = ssSeason.empty() ? 1 : static_cast<unsigned short>(std::stoi(ssSeason));
             
             std::replace(ssLength.begin(), ssLength.end(), ':', ' ');
-            std::stringstream ss(ssLength);
-            ss >> hours >> minutes >> seconds;
+            std::stringstream ssLen(ssLength);
+            ssLen >> hours >> minutes >> seconds;
 
             length = (hours * 3600) + (minutes * 60) + seconds;
 
             for (size_t i = 0; i < col.size(); i++) {
                 MediaItem* item = col[i];
-                if (item && item->getId() == id) {
-                    TvShow* showID = dynamic_cast<TvShow*>(item);
-                    if (showID){
-                        TvEpisode episode = {showID, ovrEpNum, season, epInSeason, airDate, length, title, summary};
-                        showID->m_episodes.push_back(episode);
+                TvShow* show = dynamic_cast<TvShow*>(item);
+                if (show && show->getId() == id) {
+                    if (show){
+                        TvEpisode episode = {show, ovrEpNum, season, epInSeason, airDate, length, title, summary};
+                        show->m_episodes.push_back(episode);
                     }
                     return;
                 }

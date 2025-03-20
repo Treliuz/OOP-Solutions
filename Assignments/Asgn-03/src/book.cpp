@@ -3,7 +3,7 @@
 #include <sstream>
 #include <stdexcept>
 namespace seneca {
-    Book::Book(const std::string& author, const std::string& title, const std::string& country, double price, unsigned short year, const std::string& summary) : m_author(author), MediaItem(title, summary, year), m_country(country), m_price(price) {}
+    Book::Book(const std::string& author, const std::string& title, const std::string& country, double price, unsigned short year, const std::string& summary) : MediaItem(title, summary, year), m_author(author), m_country(country), m_price(price) {}
     
     void Book::display(std::ostream& out) const {
         if (g_settings.m_tableView) {
@@ -20,9 +20,10 @@ namespace seneca {
                 else
                     out << this->getSummary().substr(0, g_settings.m_maxSummaryWidth - 3) << "...";
             }
-            else
+            else {
                 out << this->getSummary();
                 out << std::endl;
+            }   
         } else {
             size_t pos = 0;
             out << this->getTitle() << " [" << this->getYear() << "] [";

@@ -1,0 +1,53 @@
+#include "spellchecker.h"
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <sstream>
+namespace seneca {
+    SpellChecker::SpellChecker(const char* filename) {
+        std::ifstream file(filename);
+        if (!file) {
+            throw "Bad file name!";
+        }
+
+        std::string line;
+        size_t i = 0;
+        while (std::getline(file, line) && i < SIZE) {
+            std::stringstream ss(line);
+            std::string bad, good;
+            ss >> bad >> good;
+            trim(bad);
+            trim(good);
+            m_badWords[i] = bad;
+            m_goodWords[i] = good;
+            i++;
+        }
+    }
+
+    void SpellChecker::trim(std::string& str) {
+        size_t i = 0u;
+        for (i = 0u; i < str.length() && str[i] == ' '; ++i);
+        str = str.substr(i);
+
+        for (i = str.length(); i > 0 && str[i - 1] == ' '; --i);
+        str = str.substr(0, i);
+    }
+
+    void SpellChecker::operator()(std::string& text) {
+        for (size_t i = 0; i < SIZE; ++i) {
+            size_t pos = text.find(m_badWords[i], pos);
+
+            if (pos != std::string::npos) {
+                text.replace(pos, m_badWords[i].length(), m_goodWords[i]);
+                count[i]++;
+                pos += m_goodWords[i].length();
+            }
+        }
+    }
+
+    void SpellChecker::showStatistics(std::ostream& out) const {
+        for (int i = 0; i < 6; ++i) {
+            out << std::left << std::setw(15) << m_badWords[i] << ": " << count[i] << " replacements" << std::endl;  
+        }
+    }
+}
