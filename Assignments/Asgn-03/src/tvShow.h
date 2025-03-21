@@ -27,7 +27,7 @@ namespace seneca {
         TvShow(const std::string& showID, const std::string& title, unsigned short year, const std::string& summary);
     public:
         void display(std::ostream& out) const override;
-        TvShow* createItem(const std::string& strShow);
+        static TvShow* createItem(const std::string& strShow);
         const std::string getId() const;
 
         template<typename Collection_t>

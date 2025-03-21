@@ -20,10 +20,9 @@ namespace seneca {
                 else
                     out << this->getSummary().substr(0, g_settings.m_maxSummaryWidth - 3) << "...";
             }
-            else {
+            else
                 out << this->getSummary();
-                out << std::endl;
-            }   
+            out << std::endl; 
         } else {
             size_t pos = 0;
             out << this->getTitle() << " [" << this->getYear() << "] [";

@@ -11,7 +11,7 @@ namespace seneca {
         Book(const std::string& author, const std::string& title, const std::string& country, double price, unsigned short year, const std::string& summary);
     public:
         void display(std::ostream& out) const override;
-        Book* createItem(const std::string& strBook);
+        static Book* createItem(const std::string& strBook);
     };
 }
 #endif

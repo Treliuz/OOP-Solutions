@@ -8,7 +8,7 @@ namespace seneca {
        Movie(const std::string& title, unsigned short year, const std::string& summary);
     public: 
         void display(std::ostream& out) const override;
-        Movie* createItem(const std::string& strMovie);
+        static Movie* createItem(const std::string& strMovie);
     };
 }
 #endif

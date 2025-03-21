@@ -158,75 +158,75 @@ int main(int argc, char** argv)
 		std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
 	}
 
-	{
-		std::cout << ">>>  T11: Display Everything as Table\n";
-		std::cout << "==========:==========:==========:==========:==========\n";
-		seneca::g_settings.m_tableView = true;
-		seneca::g_settings.m_maxSummaryWidth = 100;
-		std::cout << col;
-		std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
-	}
+	// {
+	// 	std::cout << ">>>  T11: Display Everything as Table\n";
+	// 	std::cout << "==========:==========:==========:==========:==========\n";
+	// 	seneca::g_settings.m_tableView = true;
+	// 	seneca::g_settings.m_maxSummaryWidth = 100;
+	// 	std::cout << col;
+	// 	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
+	// }
 
-	{
-		std::cout << ">>>  T12: Remove Quotes from Title and Summary (ALG)\n";
-		std::cout << "==========:==========:==========:==========:==========\n";
-		seneca::g_settings.m_maxSummaryWidth = 240;
-		col.removeQuotes();
-		std::cout << col;
-		std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
-	}
+	// {
+	// 	std::cout << ">>>  T12: Remove Quotes from Title and Summary (ALG)\n";
+	// 	std::cout << "==========:==========:==========:==========:==========\n";
+	// 	seneca::g_settings.m_maxSummaryWidth = 240;
+	// 	col.removeQuotes();
+	// 	std::cout << col;
+	// 	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
+	// }
 
-	{
-		std::cout << ">>>  T13: Sort by Title (ALG)\n";
-		std::cout << "==========:==========:==========:==========:==========\n";
-		seneca::g_settings.m_tableView = true;
-		seneca::g_settings.m_maxSummaryWidth = 100;
-		col.sort("title");
-		std::cout << col;
-		std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
-	}
+	// {
+	// 	std::cout << ">>>  T13: Sort by Title (ALG)\n";
+	// 	std::cout << "==========:==========:==========:==========:==========\n";
+	// 	seneca::g_settings.m_tableView = true;
+	// 	seneca::g_settings.m_maxSummaryWidth = 100;
+	// 	col.sort("title");
+	// 	std::cout << col;
+	// 	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
+	// }
 
-	{
-		std::cout << ">>>  T14: Sort by Year (ALG)\n";
-		std::cout << "==========:==========:==========:==========:==========\n";
-		seneca::g_settings.m_tableView = true;
-		seneca::g_settings.m_maxSummaryWidth = 100;
-		col.sort("year");
-		std::cout << col;
-		std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
-	}
+	// {
+	// 	std::cout << ">>>  T14: Sort by Year (ALG)\n";
+	// 	std::cout << "==========:==========:==========:==========:==========\n";
+	// 	seneca::g_settings.m_tableView = true;
+	// 	seneca::g_settings.m_maxSummaryWidth = 100;
+	// 	col.sort("year");
+	// 	std::cout << col;
+	// 	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
+	// }
 
-	{
-		std::cout << ">>>  T15: Average Episode Length (ALG)\n";
-		std::cout << "==========:==========:==========:==========:==========\n";
-		seneca::g_settings.m_tableView = false;
-		seneca::g_settings.m_maxSummaryWidth = 100;
-		seneca::TvShow* show = dynamic_cast<seneca::TvShow*>(col["Agatha All Along"]);
-		std::cout << *show;
-		std::cout << "Average size of an episode ["
-			<< static_cast<int>(show->getEpisodeAverageLength() / 60) << "] minutes.\n";
-		std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
-	}
+	// {
+	// 	std::cout << ">>>  T15: Average Episode Length (ALG)\n";
+	// 	std::cout << "==========:==========:==========:==========:==========\n";
+	// 	seneca::g_settings.m_tableView = false;
+	// 	seneca::g_settings.m_maxSummaryWidth = 100;
+	// 	seneca::TvShow* show = dynamic_cast<seneca::TvShow*>(col["Agatha All Along"]);
+	// 	std::cout << *show;
+	// 	std::cout << "Average size of an episode ["
+	// 		<< static_cast<int>(show->getEpisodeAverageLength() / 60) << "] minutes.\n";
+	// 	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
+	// }
 
-	{
-		std::cout << ">>>  T16: Get Long Episodes (ALG)\n";
-		std::cout << "==========:==========:==========:==========:==========\n";
-		seneca::TvShow* show = dynamic_cast<seneca::TvShow*>(col["Game of Thrones"]);
-		auto lst = show->getLongEpisodes();
-		std::cout << "Episodes of 'Game of Thrones' of at least 60 minutes:\n";
-		for (const auto& title : lst)
-			std::cout << "- " << title << '\n';
-		std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
-	}
+	// {
+	// 	std::cout << ">>>  T16: Get Long Episodes (ALG)\n";
+	// 	std::cout << "==========:==========:==========:==========:==========\n";
+	// 	seneca::TvShow* show = dynamic_cast<seneca::TvShow*>(col["Game of Thrones"]);
+	// 	auto lst = show->getLongEpisodes();
+	// 	std::cout << "Episodes of 'Game of Thrones' of at least 60 minutes:\n";
+	// 	for (const auto& title : lst)
+	// 		std::cout << "- " << title << '\n';
+	// 	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
+	// }
 
-	{
-		std::cout << ">>>  T17: Print Whole Collection\n";
-		std::cout << "==========:==========:==========:==========:==========\n";
-		seneca::g_settings.m_tableView = false;
-		seneca::g_settings.m_maxSummaryWidth = 80;
-		std::cout << col;
-		std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
-	}
+	// {
+	// 	std::cout << ">>>  T17: Print Whole Collection\n";
+	// 	std::cout << "==========:==========:==========:==========:==========\n";
+	// 	seneca::g_settings.m_tableView = false;
+	// 	seneca::g_settings.m_maxSummaryWidth = 80;
+	// 	std::cout << col;
+	// 	std::cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n";
+	// }
 
 	return cout;
 }
