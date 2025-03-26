@@ -1,3 +1,11 @@
+/********************************************************************************
+* OOP345 – Assignment 03
+*
+* I declare that this assignment is my own work in accordance with Seneca's
+* Academic Integrity Policy:
+*
+* Name: Joseph Mwamba-Mukuna Student ID: 163997216 Date: 21/03/2025 
+********************************************************************************/
 #include "collection.h"
 #include <algorithm>
 namespace seneca {
@@ -62,8 +70,11 @@ namespace seneca {
             std::string summary = item->getSummary();
 
             auto fixedString = [] (std::string& str) {
-                if (!str.empty() && str.front() == '"' && str.back() == '"') {
-                    str = str.substr(1, str.size() - 2);
+                if (!str.empty() && str.front() == '"')  {
+                    str = str.substr(1);
+                } 
+                if (!str.empty() && str.back() == '"') {
+                    str.pop_back();
                 }
             };
 
