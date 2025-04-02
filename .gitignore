@@ -9,6 +9,7 @@
 !*.docx
 !*.pdf
 !*.md
+!*.txt
 
 # Optional: Allow directories (necessary if ignoring everything with `*`)
 !*/
