@@ -1,3 +1,11 @@
+/********************************************************************************
+* OOP345 – Assignment 04
+*
+* I declare that this assignment is my own work in accordance with Seneca's
+* Academic Integrity Policy:
+*
+* Name: Joseph Mwamba-Mukuna Student ID: 163997216 Date: 03/04/2025  
+********************************************************************************/
 #include "CustomerOrder.h"
 #include "Utilities.h"
 #include <algorithm>
@@ -38,15 +46,12 @@ namespace seneca {
 
     CustomerOrder& CustomerOrder::operator=(CustomerOrder&& other) noexcept {
         if (this != &other) {
-            for (size_t i = 0; i < m_cntItem; i++) {
-                delete m_lstItem[i];
-            }
-            delete[] m_lstItem;
-
             m_name = std::move(other.m_name);
             m_product = std::move(other.m_product);
             m_cntItem = other.m_cntItem;
             m_lstItem = other.m_lstItem;
+            other.m_cntItem = 0;
+            other.m_lstItem = nullptr;
         }
         return *this;
     }
@@ -84,7 +89,7 @@ namespace seneca {
                     m_lstItem[i]->m_isFilled = true;
                     m_lstItem[i]->m_serialNumber = station.getNextSerialNumber();
                     station.updateQuantity();
-                    os << "Filled " << m_name << ", " << m_product << " [" << m_lstItem[i]->m_itemName << "]" << std::endl;
+                    os << "    Filled " << m_name << ", " << m_product << " [" << m_lstItem[i]->m_itemName << "]" << std::endl;
                 } else {
                     os << "Unable to fill " << m_name << ", " << m_product << " [" << m_lstItem[i]->m_itemName << "]" << std::endl;
                 }

@@ -22,7 +22,7 @@ namespace seneca {
 
         std::string m_name;
         std::string m_product;
-        size_t m_cntItem;
+        size_t m_cntItem {0};
         Item** m_lstItem;
         static size_t m_widthField;
     public:
