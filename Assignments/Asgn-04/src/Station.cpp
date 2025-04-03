@@ -11,6 +11,9 @@
 #include <iomanip>
 
 namespace seneca {
+    size_t Station::m_widthField = 0;
+    int Station::id_generator = 0;
+    
     Station::Station(const std::string& record) {
         Utilities util;
         size_t next_pos = 0;
@@ -25,7 +28,7 @@ namespace seneca {
         }
 
         m_desc = util.extractToken(record, next_pos, more);
-        m_id = id_generator++;
+        m_id = ++id_generator;
 
         if (m_name.length() > m_widthField) {
             m_widthField = m_name.length();
@@ -57,6 +60,4 @@ namespace seneca {
         }
         os << std::endl;
     }
-    size_t Station::m_widthField = 0;
-    int Station::id_generator = 0;
 }
