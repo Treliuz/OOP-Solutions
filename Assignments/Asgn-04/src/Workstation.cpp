@@ -15,7 +15,6 @@ namespace seneca {
 
     bool Workstation::attemptToMoveOrder() {
         bool moved = false;
-
         if (!m_orders.empty()) {
             CustomerOrder& order = m_orders.front();
 
