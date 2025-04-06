@@ -51,4 +51,8 @@ namespace seneca {
         m_orders.push_back(std::move(newOrder));
         return *this;
     }
+
+    bool Workstation::isEmpty() const{
+        return m_orders.empty();
+    }
 }

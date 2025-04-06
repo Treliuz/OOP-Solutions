@@ -24,6 +24,7 @@ namespace seneca {
         Workstation* getNextStation() const;
         void display(std::ostream& os) const;
         Workstation& operator+=(CustomerOrder&& newOrder);
+        bool isEmpty() const;
     };
 }
 #endif
