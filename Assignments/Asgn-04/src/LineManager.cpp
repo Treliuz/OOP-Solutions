@@ -4,13 +4,14 @@
 * I declare that this assignment is my own work in accordance with Seneca's
 * Academic Integrity Policy:
 *
-* Name: Joseph Mwamba-Mukuna Student ID: 163997216 Date: 03/04/2025  
+* Name: Joseph Mwamba-Mukuna Student ID: 163997216 Date: 06/04/2025  
 ********************************************************************************/
 #include "LineManager.h"
 #include "Utilities.h"
 #include <fstream>
 #include <algorithm>
 namespace seneca {
+
 
     LineManager::LineManager(const std::string& file, const std::vector<Workstation*>& stations) {
         try {
@@ -19,40 +20,68 @@ namespace seneca {
             std::ifstream in(file);
             if (!in)
                 throw std::runtime_error("Failed to open");
-
-            m_activeLine = stations;
-
+    
+            std::vector<Workstation*> ordered;
+            ordered.reserve(stations.size());
+    
             while (std::getline(in, record)) {
                 size_t next_pos = 0;
                 bool more = true;
-
+    
                 std::string current = util.extractToken(record, next_pos, more);
                 std::string next = more ? util.extractToken(record, next_pos, more) : "";
-
-                auto currentSt = std::find_if(m_activeLine.begin(), m_activeLine.end(), [&](Workstation* work) {
-                    return work->getItemName() == current;
-                });
-
-                auto nextSt = std::find_if(m_activeLine.begin(), m_activeLine.end(), [&](Workstation* work) {
-                    return work->getItemName() == next;
-                });
-
-                if (currentSt != m_activeLine.end() && (next.empty() || nextSt != m_activeLine.end())) {
+    
+                auto currentSt = std::find_if(stations.begin(), stations.end(), 
+                    [&](Workstation* work) {
+                        return work->getItemName() == current;
+                    });
+    
+                if (currentSt != stations.end() && 
+                    std::find(ordered.begin(), ordered.end(), *currentSt) == ordered.end()) {
+                    ordered.push_back(*currentSt);
+                }
+            }
+    
+            in.clear();
+            in.seekg(0);
+    
+            while (std::getline(in, record)) {
+                size_t next_pos = 0;
+                bool more = true;
+    
+                std::string current = util.extractToken(record, next_pos, more);
+                std::string next = more ? util.extractToken(record, next_pos, more) : "";
+    
+                auto currentSt = std::find_if(ordered.begin(), ordered.end(),
+                    [&](Workstation* work) {
+                        return work->getItemName() == current;
+                    });
+    
+                auto nextSt = std::find_if(ordered.begin(), ordered.end(),
+                    [&](Workstation* work) {
+                        return work->getItemName() == next;
+                    });
+    
+                if (currentSt != ordered.end()) {
                     (*currentSt)->setNextStation(next.empty() ? nullptr : *nextSt);
                 }
             }
-
-            m_firstStation = *std::find_if(m_activeLine.begin(), m_activeLine.end(), [&](Workstation* first) {
-                return std::none_of(m_activeLine.begin(), m_activeLine.end(), [&](Workstation* work) {
-                    return work->getNextStation() == first;
+    
+            m_activeLine = std::move(ordered);
+    
+            m_firstStation = *std::find_if(m_activeLine.begin(), m_activeLine.end(),
+                [&](Workstation* first) {
+                    return std::none_of(m_activeLine.begin(), m_activeLine.end(),
+                        [&](Workstation* work) {
+                            return work->getNextStation() == first;
+                        });
                 });
-            });
-
+    
             m_cntCustomerOrder = g_pending.size();
-        } catch (const std::string& err) {
-            throw err;
+        } catch (...) {
+            throw "It broke";
         }
-    } 
+    }
 
     void LineManager::reorderStations() {
         std::vector<Workstation*> temp;
