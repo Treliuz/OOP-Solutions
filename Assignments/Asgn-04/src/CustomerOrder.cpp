@@ -91,6 +91,7 @@ namespace seneca {
 
 
     void CustomerOrder::fillItem(Station& station, std::ostream& os) {
+        bool multiple = m_product.find("2-Room") != std::string::npos && station.getItemName() == "Desk";
         for (size_t i = 0; i < m_cntItem; i++) {
             if (m_lstItem[i]->m_itemName == station.getItemName() && !m_lstItem[i]->m_isFilled) {
                 if (station.getQuantity() > 0) {
@@ -103,7 +104,7 @@ namespace seneca {
                     os << "    Unable to fill " << m_name << ", " << m_product 
                        << " [" << m_lstItem[i]->m_itemName << "]" << std::endl;
                 }
-                return;
+                if (!multiple) return;
             }
         }
     }
