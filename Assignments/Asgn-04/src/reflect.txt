@@ -2,7 +2,8 @@ Overall, this assignment really push my patience, eye for detail and understadin
 One of the most difficult challenges so far was getting the right order of one of the stations as shown in the file before the linking stage in the LineManager constructor, I was having a fundemental misunderstanding of the constructor until I read the description 
 several times over and had read a reddit post on cpp_questions about nearly the same thing as I was that made me realize that I could try breaking the process of ordering the stations and linking them in two different steps.
 Next, was a lot of logic issues when iterating over the filing order of the line manager. I was printing several items on the same line when I first wrote the function not understanding why it wasn't seperating it properly like I had intended.
-Until, while going step by step with the debugger, I noticed one of my logic gates was never being checked, from then it was kind of trial and error in terms of solving it until it finally made sense in my head.
+Until, while going step by step with the debugger, I noticed one of my logic gates was never being checked, from then it was kind of trial and error in terms of solving it until it finally made sense in my head. Oh and the single occurence where I had to print it twice 
+because of the customer owning two room was annoying to catch.
 I did struggle however in finding useful ways to utilize multithreading in my program, whenever I would think of using it for certain processes, it wouldn't make sense and would end up more complicated and inconvinient to implement.
 All in all, I really enjoyed and hated this assignment as it took more time debugging than most of my previous ones. I learnt to better utilize some of the topics taught in class especially with algorithms, playing with containers and of course debugging.
 /********************************************************************************
