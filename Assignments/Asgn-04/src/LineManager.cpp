@@ -1,3 +1,11 @@
+/********************************************************************************
+* OOP345 – Assignment 04
+*
+* I declare that this assignment is my own work in accordance with Seneca's
+* Academic Integrity Policy:
+*
+* Name: Joseph Mwamba-Mukuna Student ID: 163997216 Date: 03/04/2025  
+********************************************************************************/
 #include "LineManager.h"
 #include "Utilities.h"
 #include <fstream>
@@ -48,7 +56,7 @@ namespace seneca {
 
     void LineManager::reorderStations() {
         std::vector<Workstation*> temp;
-        temp.resize(m_activeLine.size());
+        temp.reserve(m_activeLine.size());
 
         Workstation* current = m_firstStation;
 
@@ -57,7 +65,7 @@ namespace seneca {
             current = current->getNextStation();
         }
 
-        m_activeLine = temp;
+        m_activeLine = std::move(temp);
     }
 
     bool LineManager::run(std::ostream& os) {
@@ -80,10 +88,12 @@ namespace seneca {
         bool complete = std::all_of(m_activeLine.begin(), m_activeLine.end(), [](const Workstation* station) {
             return station->isEmpty();
         });
+
+        return complete && g_pending.empty() && g_completed.size() + g_incomplete.size() == m_cntCustomerOrder;
     }
 
     void LineManager::display(std::ostream& os) const {
-        std::for_each(m_activeLine.begin(), m_activeLine.end(), [&os] (const Workstation* station) {
+        std::for_each(m_activeLine.begin(), m_activeLine.end(), [&os](const Workstation* station) {
             station->display(os);
         });
     }

@@ -1,3 +1,11 @@
+/********************************************************************************
+* OOP345 – Assignment 04
+*
+* I declare that this assignment is my own work in accordance with Seneca's
+* Academic Integrity Policy:
+*
+* Name: Joseph Mwamba-Mukuna Student ID: 163997216 Date: 03/04/2025  
+********************************************************************************/
 #include "Workstation.h"
 #include <iostream>
 namespace seneca {
@@ -18,8 +26,8 @@ namespace seneca {
         if (!m_orders.empty()) {
             CustomerOrder& order = m_orders.front();
 
-            if (order.isItemFilled(this->getItemName()) || this->getQuantity() == 0) {
-                if (m_pNextStation) {
+            if (order.isItemFilled(getItemName()) || getQuantity() == 0) {
+                if (m_pNextStation != nullptr) {
                     *m_pNextStation += std::move(order);
                 } else {
                     if (order.isOrderFilled()) {
@@ -28,8 +36,8 @@ namespace seneca {
                         g_incomplete.push_back(std::move(order));
                     }
                 }
-                m_orders.pop_front();
                 moved = true;
+                m_orders.pop_front();
             }
         }
         return moved;
@@ -44,7 +52,7 @@ namespace seneca {
     }
 
     void Workstation::display(std::ostream& os) const {
-        os << getItemName() << "--->" << (m_pNextStation ? m_pNextStation->getItemName() : "End of Line") << '\n';
+        os << getItemName() << "--->" << (m_pNextStation ? m_pNextStation->getItemName() : "End of Line") << std::endl;
     }
 
     Workstation& Workstation::operator+=(CustomerOrder&& newOrder) {
