@@ -78,15 +78,15 @@ namespace seneca {
     }
 
     bool CustomerOrder::isItemFilled(const std::string& itemName) const {
-        bool allFilled = true;
+        bool full = true;
         for (size_t i = 0; i < m_cntItem; i++) {
             if (m_lstItem[i]->m_itemName == itemName) {
                 if (!m_lstItem[i]->m_isFilled) {
-                    allFilled = false;
+                    full = false;
                 }
             }
         }
-        return allFilled;
+        return full;
     }
 
 
@@ -112,7 +112,7 @@ namespace seneca {
     void CustomerOrder::display(std::ostream& os) const {
         os << m_name << " - " << m_product << std::endl;
         for (size_t i = 0; i < m_cntItem; i++) {
-            os << "[" << std::setw(6) << std::setfill('0') << m_lstItem[i]->m_serialNumber << "] ";
+            os << "[" << std::setfill('0') << std::right << std::setw(6) << m_lstItem[i]->m_serialNumber << "] ";
             os << std::setw(m_widthField) << std::left << std::setfill(' ') << m_lstItem[i]->m_itemName << " - ";
             os << (m_lstItem[i]->m_isFilled ? "FILLED" : "TO BE FILLED") << std::endl;
         }
