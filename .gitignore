@@ -10,6 +10,9 @@
 !*.pdf
 !*.md
 !*.txt
+!*.o
+!*.a
+!*.lib
 
 # Optional: Allow directories (necessary if ignoring everything with `*`)
 !*/
